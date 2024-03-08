@@ -9,17 +9,18 @@ def init_tts(model="tts_models/multilingual/multi-dataset/xtts_v2"):
     tts = TTS(model).to(device)
     return tts
 
+
 def run_tts(tts, text, speaker_wav, file_path="output.wav", language="en"):
-    wav = tts.tts(text=text, speaker_wav=speaker_wav, language=language, file_path=file_path)
-    return wav
+    tts.tts_to_file(text=text, speaker_wav=speaker_wav, language=language, file_path=file_path)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--text", type=str, help="The text to be converted to speech")
     parser.add_argument("--speaker_wav", type=str, help="The speaker's voice to be used")
-    parser.add_argument("--file_path", type=str, help="The path to save the output wav file")
+    parser.add_argument("--file_path", default="output.wav", type=str, help="The path to save the output wav file")
     parser.add_argument("--language", default="fr",type=str, help="The language of the text")
     args = parser.parse_args()
 
     tts = init_tts()
-    #run_tts(tts, args.text, "tts_models/multilingual/multi-dataset/xtts_v2/speaker.wav", args.file_path, args.language)
+    run_tts(tts, text=args.text, speaker_wav=args.speaker_wav, file_path=args.file_path, language=args.language)
