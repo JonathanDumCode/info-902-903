@@ -14,7 +14,7 @@ public class History {
     @JoinColumn(name = "code", nullable = false)
     private Assistant assistant;
     @Id
-    private Integer id;
+    private Long id;
     private String request;
 
     private String response;
