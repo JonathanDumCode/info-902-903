@@ -14,7 +14,7 @@ public class Assistant {
     @JoinColumn(name = "id")
     private User user;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     private Integer code;
 
     private String language;
