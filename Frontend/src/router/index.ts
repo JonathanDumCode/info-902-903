@@ -1,3 +1,4 @@
+import { useUserStore } from '@/stores/user-store/user-store'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -12,11 +13,18 @@ const router = createRouter({
       path: '/dashboard',
       name: 'Dashboard',
       component: () => import('../views/DashboardView.vue'),
-      meta: {
-        requiresAuth: true
+      beforeEnter: async () => {
+        await hasAccess()
       }
     }
   ]
 })
+
+async function hasAccess() {
+  const userStore = useUserStore()
+  if (!userStore.getUser) {
+    router.push('/')
+  }
+}
 
 export default router
