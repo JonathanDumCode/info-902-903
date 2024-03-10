@@ -15,12 +15,9 @@ services:
     ports:
       - "8080:8081"
     environment:
-      - DB_USERNAME=root
-      - DB_PASSWORD=root
-      - DB_NAME=info902
-      - DB_SERVER=db
-      - DB_TYPE=mysql
-
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/info902
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
     depends_on:
       - db
 
