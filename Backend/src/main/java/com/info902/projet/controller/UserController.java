@@ -23,4 +23,9 @@ public class UserController {
     public ResponseEntity<User> Login(@RequestBody RegisterRequest registerRequest){
         return ResponseEntity.ok(userService.loginUser(registerRequest));
     }
+
+    @GetMapping("/hello")
+    public String Hello(){
+        return "Hello";
+    }
 }

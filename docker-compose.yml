@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: info902
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+  assistant-backend:
+    build:
+      context: ./Backend
+    ports:
+      - "8080:8081"
+    environment:
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_NAME=info902
+      - DB_SERVER=db
+      - DB_TYPE=mysql
+
+    depends_on:
+      - db
+
+  assistant-frontend:
+    build:
+      context: ./Frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - assistant-backend
+    restart: always
