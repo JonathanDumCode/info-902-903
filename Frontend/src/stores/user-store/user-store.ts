@@ -26,6 +26,16 @@ export const useUserStore = defineStore('useUserStore', {
       if (user) {
         router.push('/dashboard')
       }
+    },
+
+    async login(pseudo: string, password: string) {
+      this.isLoading = true
+      const user = await UserService.login(pseudo, password)
+      this.user = user
+      this.isLoading = false
+      if (user) {
+        router.push('/dashboard')
+      }
     }
   }
 })
