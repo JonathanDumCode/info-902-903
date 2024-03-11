@@ -1,26 +1,65 @@
 import  http.client as httplib
+import requests
 import subprocess
 import wave
+import json
 
 
-def get_txt(c):
-    doc = c.getresponse().read().decode('utf-8')
-    return doc
+def get_txt(data):
+    return data.decode('utf-8')
 
 
-def decode_audio(c):
-    doc = c.getresponse().read()
-    with open("output2.wav", "wb") as f:
+def decode_audio(doc, name="output2.wav"):
+    with open(name, "wb") as f:
         f.write(doc)
         f.close()
-        print("File saved")
+        print("File saved as " + name)
+        return name
 
 
-c = httplib.HTTPConnection('localhost', 8080)
-c.request('POST', '/hello', '{}')
-print(get_txt(c))
+def init_client(address, port):
+    return httplib.HTTPConnection(address, port
 
-c.request('POST', '/audio', '{}')
-decode_audio(c)
 
-c.close()
+def ping(c):
+    c.request('POST', '/hello', '{}')
+    return get_txt(c.getresponse().read())
+
+
+def test_receive_audio(c, path):
+    c.request('POST', '/audio', '{}')
+    decode_audio(c.getresponse().read(), path)
+    print("Audio file received")
+
+
+def audio_to_text(c, address, audio):
+    url = address+"/stt"
+    files = {'audio_file': open(audio, 'rb')}
+    r = requests.post(url, files=files)
+    return r.text
+
+
+def text_to_audio(c, text, speaker, lang):
+    data = {
+        'text': text,
+        'speaker': speaker,
+        'lang': lang
+    }
+
+    json_data = json.dumps(data)
+    headers = {'Content-Type': 'application/json'}
+    c.request('POST', '/tts', json_data, headers)
+
+    temp = c.getresponse()
+    code = temp.status 
+    if code != 200:
+        print("Error: " + str(code))
+    else:
+        return decode_audio(temp.read(), "response.wav")
+
+
+if __name__ == "__main__":
+    c = init_client("localhost", 8080)
+
+
+    c.close()

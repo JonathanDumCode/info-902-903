@@ -5,7 +5,7 @@ import argparse
 from vosk import Model, KaldiRecognizer, SetLogLevel
 
 
-def init(lang="fr"):
+def init_stt(lang="fr"):
     SetLogLevel(0)
     model = Model(lang=lang)
     return model
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     parser.add_argument("--lang", type=str, help="The language of the audio file")
     args = parser.parse_args()
 
-    model = init(args.lang)
+    model = init_stt(args.lang)
     res = run_stt(model, args.audio_file)
     print(res)
     
