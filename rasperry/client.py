@@ -18,7 +18,7 @@ def decode_audio(doc, name="output2.wav"):
 
 
 def init_client(address, port):
-    return httplib.HTTPConnection(address, port
+    return httplib.HTTPConnection(address, port)
 
 
 def ping(c):
@@ -57,9 +57,32 @@ def text_to_audio(c, text, speaker, lang):
     else:
         return decode_audio(temp.read(), "response.wav")
 
+def ollama(model="mistral", text="hello"):
+    import requests
+
+    json_data = {
+        "model": model,
+        "prompt": text
+    }
+
+    response = requests.post('http://localhost:11434/api/generate', json=json_data)
+    res = response.text
+    # to json
+    print(type(res))
+    res = res.split("\n")
+    ok = res.pop()
+    result = ""
+    for r in res:
+        print(r)
+        temp = json.loads(r)
+        result += temp["response"]
+
+    return result
+
 
 if __name__ == "__main__":
     c = init_client("localhost", 8080)
 
+    ollama()
 
     c.close()
