@@ -29,4 +29,13 @@ public class AssistantService {
         return configResponse;
     }
 
+    public Boolean isAssistantValid(Integer code){
+        Optional<Assistant> assistant = assistantRepository.findByCode(code);
+        var valid = false;
+        if(assistant.isPresent()){
+            valid = true;
+        }
+        return valid;
+    }
+
 }

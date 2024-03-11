@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("assistant")
 public class AssistantController {
 
@@ -18,7 +19,11 @@ public class AssistantController {
 
     @GetMapping("/config/{code}")
     public ConfigResponse AssistantConfig(@PathVariable Integer code){
-
         return assistantService.getConfig(code);
+    }
+
+    @GetMapping("isvalid/{code}")
+    public Boolean IsAssistantConfig(@PathVariable Integer code){
+        return assistantService.isAssistantValid(code);
     }
 }
