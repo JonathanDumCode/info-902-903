@@ -3,7 +3,7 @@ import wave
 from bottle import run, post, request, response, get, route, static_file, Bottle
 import random
 import string
-from tts import *
+from heavy_tts import *
 from stt import *
 from colorama import init as colorama_init
 from colorama import Fore
@@ -54,7 +54,7 @@ def return_audio():
                 lang = json_data['lang']
                 name = random_string(10) + ".wav"
                 print(name)
-                run_tts(_tts, text, speaker, name, lang)
+                run_heavy_tts(_tts, text, speaker, name, lang)
                 return static_file(name, root='.')
 
             else:

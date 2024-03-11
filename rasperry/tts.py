@@ -1,26 +1,21 @@
-import torch
-from TTS.api import TTS
+import os
+import random
+import string
 import argparse
 
 
-def init_tts(model="tts_models/multilingual/multi-dataset/xtts_v2"):
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(TTS().list_models())
-    tts = TTS(model).to(device)
-    return tts
+def random_string(length):
+    return ''.join(random.choice(string.ascii_letters) for m in range(length))
 
 
-def run_tts(tts, text, speaker_wav, file_path="output.wav", language="en"):
-    tts.tts_to_file(text=text, speaker_wav=speaker_wav, language=language, file_path=file_path)
-
+def run_stt(text, save_location):
+    os.system("echo {} | /home/pi/piper/./piper --model fr-gilles-low.onnx --outpu_file {}".format(text, save_location))
+ 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--text", type=str, help="The text to be converted to speech")
-    parser.add_argument("--speaker_wav", type=str, help="The speaker's voice to be used")
-    parser.add_argument("--file_path", default="output.wav", type=str, help="The path to save the output wav file")
-    parser.add_argument("--language", default="fr",type=str, help="The language of the text")
+    parser.add_argument("--text", default="je suis vide", type=str, help="The audio file to be converted to text")
+    parser.add_argument("--save", default="output.wav", type=str, help="The audio file to be converted to text")
     args = parser.parse_args()
 
-    tts = init_tts()
-    run_tts(tts, text=args.text, speaker_wav=args.speaker_wav, file_path=args.file_path, language=args.language)
+    print(run_stt(args.text, args.save))
