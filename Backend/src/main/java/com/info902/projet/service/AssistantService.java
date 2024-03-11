@@ -14,9 +14,9 @@ public class AssistantService {
     private AssistantRepository assistantRepository;
 
     public Integer createAssistant(){
-        Assistant assistant = new Assistant();
-        assistantRepository.save(assistant);
-        return 3;
+        Assistant newAssistant = Assistant.builder().language("fr").voice("basic").build();
+        assistantRepository.save(newAssistant);
+        return newAssistant.getCode();
     }
 
 }
