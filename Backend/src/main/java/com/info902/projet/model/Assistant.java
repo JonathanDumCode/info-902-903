@@ -1,8 +1,10 @@
 package com.info902.projet.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
 @Data
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "assistant")
 public class Assistant {
 
